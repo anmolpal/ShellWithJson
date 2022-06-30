@@ -1,0 +1,20 @@
+{
+    "user": "azure",
+    "hostname": "cloudMaster",
+    "pythonVersion": "3.6",
+    "hadoopVersion": "3.2",
+    "masterIP" :"20.219.7.67",
+    "masterIP1" :["20.219.7.67"
+    ],
+    "slaveIP" :["20.219.106.150"
+    ],
+    "sparkVersion": "3.1",
+    "sparkCores": "2",
+    "sparkMemory": "4g",
+    "hive": "yes",
+    "airflow": "yes",
+    "postgres": "no",
+    "mysql": "no",
+    "mongodb": "no",
+    "mssql": "no"
+}
