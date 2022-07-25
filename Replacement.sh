@@ -18,32 +18,33 @@ echo $usar | sed "s/['\"]//g" > usar1.txt
 usar1=`awk 'FNR ==1 {print $1}' /usr/local/usar1.txt`
 
 
-sudo touch bashline
-sudo chmod 777 bashline
+#sudo touch bashline
+#sudo chmod 777 bashline
 
-sudo touch abc
-sudo chmod 777 abc
+#sudo touch abc
+#sudo chmod 777 abc
 
-sudo touch txt
-sudo chmod 777 txt
+#sudo touch txt
+#sudo chmod 777 txt
 
-sudo touch tnt
-sudo chmod 777 tnt
+#sudo touch tnt
+#sudo chmod 777 tnt
 
-sudo touch ab
-sudo chmod 777 ab
+#sudo touch ab
+#sudo chmod 777 ab
 
-cd /usr/local/
-usar=`jq '.user' info.json`
-sudo touch usar1.txt
-sudo chmod 777 usar1.txt
-echo $usar | sed "s/['\"]//g" > usar1.txt
-usar1=`awk 'FNR ==1 {print $1}' /usr/local/usar1.txt`
+#cd /usr/local/
+#usar=`jq '.user' info.json`
+#sudo touch usar1.txt
+#sudo chmod 777 usar1.txt
+#echo $usar | sed "s/['\"]//g" > usar1.txt
+#usar1=`awk 'FNR ==1 {print $1}' /usr/local/usar1.txt`
 #echo $usar1
 
 cd /home/$usar1/
 
 grep 'PATH' /home/$usar1/.bashrc | grep 'hadoop' >> bashline
+grep 'PATH' /home/$usar1/.bashrc | grep 'spark' >> bashline
 while read line
 do
         IFS=':' #setting space as delimiter
@@ -62,20 +63,29 @@ sed  -i "/\<$x\>/ d"  /home/$usar1/abc
 uniq abc txt
 #awk '!visited[$0]++' /home/$usar1/txt >> tnt
 
-(readarray -t ARRAY < txt; echo "${ARRAY[*]}") >> ab
-sudo rm -rf abc
+#(readarray -t ARRAY < txt; echo "${ARRAY[*]}") >> ab
+sed 'N;s/\n/\:/' < txt > ab
+#sudo rm -rf abc
 
 while read line
 do
 echo "$line"  >> ~/.bashrc
 done < ab
+
 cd /usr/local/
 sudo rm -rf tnt
 sudo rm -rf ab
 sudo rm -rf txt
 sudo rm -rf bashline
 sudo rm -rf abc
+sudo rm -rf kbc
 cd /home/$usar1/
+sudo rm -rf tnt
+sudo rm -rf ab
+sudo rm -rf txt
+sudo rm -rf bashline
+sudo rm -rf abc
+
 sed -i '/\<PATH\>/ { /\<hadoop\>/ d; }' /home/$usar1/.bashrc
 sed -i '/\<PATH\>/ { /\<spark\>/ d; }' /home/$usar1/.bashrc
 
