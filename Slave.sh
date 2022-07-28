@@ -73,14 +73,18 @@ then
         echo "Python does not exist. Installing Python"
         cd /usr/local/kockpit-tools/
         sudo mkdir Python-3.6
-        yes | sudo apt-get update
-        yes | sudo apt install software-properties-common
-        yes | sudo add-apt-repository ppa:deadsnakes/ppa
-        yes | sudo apt-get update
-        yes | sudo apt-get upgrade
-        yes | sudo apt install python3.6
-        cd /usr/bin/
-        sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
+        yes | sudo apt install python3.6-distutils
+        yes | sudo apt-get install python3.6-minimal
+        yes | sudo apt-get install python3.6-dev
+        yes | sudo apt-get install python3.6-stdlib
+        # yes | sudo apt-get update
+        # yes | sudo apt install software-properties-common
+        # yes | sudo add-apt-repository ppa:deadsnakes/ppa
+        # yes | sudo apt-get update
+        # yes | sudo apt-get upgrade
+        # yes | sudo apt install python3.6
+        # cd /usr/bin/
+        # sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
     fi
 elif [[ $python == *3.7* ]]
 then
@@ -91,7 +95,14 @@ then
     yes | sudo add-apt-repository ppa:deadsnakes/ppa
     yes | sudo apt-get update
     yes | sudo apt-get upgrade
-    yes | sudo apt install python3.7
+    yes | sudo apt install python3.7-full
+    yes | sudo apt install python3.7-distutils
+    yes | sudo apt-get install python3.7-minimal
+    yes | sudo apt-get install python3.7-dev
+    yes | sudo apt-get install python3.7-stdlib
+    yes | sudo apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev
+    yes | sudo -H python3 -m pip install cffi
+    sudo ln -s /usr/lib/python3/dist-packages/gi/_gi.cpython-{36m,37m}-x86_64-linux-gnu.so
     cd /usr/bin/
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
@@ -104,7 +115,12 @@ then
     yes | sudo add-apt-repository ppa:deadsnakes/ppa
     yes | sudo apt-get update
     yes | sudo apt-get upgrade
-    yes | sudo apt install python3.8
+    #yes | sudo apt install python3.8
+    yes | sudo apt install python3.8-full
+    yes | sudo apt install python3.8-distutils
+    yes | sudo apt-get install python3.8-minimal
+    yes | sudo apt-get install python3.8-dev
+    yes | sudo apt-get install python3.8-stdlib
     cd /usr/bin/
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1    
@@ -117,7 +133,12 @@ then
     yes | sudo add-apt-repository ppa:deadsnakes/ppa
     yes | sudo apt-get update
     yes | sudo apt-get upgrade
-    yes | sudo apt install python3.7
+    #yes | sudo apt install python3.7
+    yes | sudo apt install python3.9-full
+    yes | sudo apt install python3.9-distutils
+    yes | sudo apt-get install python3.9-minimal
+    yes | sudo apt-get install python3.9-dev
+    yes | sudo apt-get install python3.9-stdlib
     cd /usr/bin/
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
@@ -130,7 +151,12 @@ then
     yes | sudo add-apt-repository ppa:deadsnakes/ppa
     yes | sudo apt-get update
     yes | sudo apt-get upgrade
-    yes | sudo apt install python3.10
+    #yes | sudo apt install python3.10
+    yes | sudo apt install python3.10-full
+    yes | sudo apt install python3.10-distutils
+    yes | sudo apt-get install python3.10-minimal
+    yes | sudo apt-get install python3.10-dev
+    yes | sudo apt-get install python3.10-stdlib
     cd /usr/bin/
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 2
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1    
@@ -392,7 +418,7 @@ then
         echo $masterIP | sed "s/['\"]//g" >> hosts.txt
     
         ############ Saving Worker IP into Workers File #############
-        cd /usr/local/kockpit-tools/hadoop-3.2.3/etc/hadoop/
+        cd /usr/local/kockpit-tools/hadoop-3.3.2/etc/hadoop/
         sudo rm workers
         sudo touch workers
         sudo chmod 777 workers
@@ -400,13 +426,13 @@ then
         jq -c '.slaveIP[]' info.json |
         while read i;
         do
-            echo "$i" | sed "s/['\"]//g" >> /usr/local/kockpit-tools/hadoop-3.2.3/etc/hadoop/workers
+            echo "$i" | sed "s/['\"]//g" >> /usr/local/kockpit-tools/hadoop-3.3.2/etc/hadoop/workers
         done
         masterIP=`jq '.masterIP' info.json`
         #workerIP1=`jq '.workerIP1' info.json`
         #workerIP2=`jq '.workerIP2' info.json`
         #workerIP3=`jq '.workerIP3' info.json`
-        echo $masterIP | sed "s/['\"]//g" >> /usr/local/kockpit-tools/hadoop-3.2.3/etc/hadoop/workers
+        echo $masterIP | sed "s/['\"]//g" >> /usr/local/kockpit-tools/hadoop-3.3.2/etc/hadoop/workers
         #echo $workerIP1 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/hadoop-3.2.3/etc/hadoop/workers 
         #cho $workerIP2 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/hadoop-3.2.3/etc/hadoop/workers 
         #echo $workerIP3 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/hadoop-3.2.3/etc/hadoop/workers 
@@ -582,9 +608,9 @@ then
         echo "export YARN_HOME=/usr/local/kockpit-tools/hadoop-3.3.2" >> ~/.bashrc
         echo "export HADOOP_CONF_DIR=/usr/local/kockpit-tools/hadoop-3.3.2/etc/hadoop" >> ~/.bashrc
         echo "export HADOOP_COMMON_local_NATIVE_DIR=/usr/local/kockpit-tools/hadoop-3.3.2/local/native" >> ~/.bashrc
-        echo "export SPARK_HOME=/usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2" >> ~/.bashrc
-        echo 'export PATH=$PATH:'"/usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/bin" >> ~/.bashrc
-        echo 'export PATH=$PATH:'"/usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/sbin" >> ~/.bashrc
+        echo "export SPARK_HOME=/usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2" >> ~/.bashrc
+        echo 'export PATH=$PATH:'"/usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/bin" >> ~/.bashrc
+        echo 'export PATH=$PATH:'"/usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/sbin" >> ~/.bashrc
         echo 'export LD_localRARY_PATH=$HADOOP/local/native:$LD_localRARY_PATH' >> ~/.bashrc
         echo "export PYSPARK_PYTHON=/usr/bin/python3" >> ~/.bashrc
         echo 'export PYSPARK_DRIVER_PYTHON=$PYSPARK_PYTHON' >> ~/.bashrc
@@ -706,21 +732,21 @@ spark=`jq '.sparkVersion' info.json`
 if [[ $spark == *3.2* ]]
 then
     echo "Looking for Spark in your system."
-    if [[ -d "/usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2" ]]
+    if [[ -d "/usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2" ]]
     then
         echo "Spark is already installed in your filesystem."
     else
         echo "Spark does not exist. Downloading Spark"
         cd /usr/local/kockpit-tools/
-        sudo wget https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz
-        sudo tar -xvf spark-3.2.1-bin-hadoop3.2.tgz
-        sudo rm -rf spark-3.2.1-bin-hadoop3.2.tgz
-        sudo chmod 777 /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2
+        sudo wget https://dlcdn.apache.org/spark/spark-3.2.2/spark-3.2.2-bin-hadoop3.2.tgz
+        sudo tar -xvf spark-3.2.2-bin-hadoop3.2.tgz
+        sudo rm -rf spark-3.2.2-bin-hadoop3.2.tgz
+        sudo chmod 777 /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2
         
-        cd /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/
+        cd /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/
         
         sudo touch spark-env.sh
-        sudo chmod 777 /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/spark-env.sh
+        sudo chmod 777 /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/spark-env.sh
     
         echo "Example for how to create worker cores and memory"
         echo "export SPARK_WORKER_CORES=32"
@@ -750,27 +776,27 @@ then
         #         read -rp "Your cores wasn't within the range. Please Press Enter"
         #     elif [ "$osbit" -le "$cores" ];then
         #         echo "$osbit Cores you have entered"
-        #         echo "export SPARK_WORKER_CORES=$osbit" >> /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/spark-env.sh
+        #         echo "export SPARK_WORKER_CORES=$osbit" >> /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/spark-env.sh
         #         break
         #     fi
         # done
         read -t 1 -p "Spark Worker Cores: "
         cd /usr/local
         sparkCores=`jq '.sparkCores' info.json`
-        echo "export SPARK_WORKER_MEMORY=$sparkCores" | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/spark-env.sh
+        echo "export SPARK_WORKER_MEMORY=$sparkCores" | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/spark-env.sh
         read -t 1 -p "Spark Worker Memory: "
         cd /usr/local
         sudo rm Spark_config.txt
         sparkMemory=`jq '.sparkMemory' info.json`
         echo $sparkMemory | sed "s/['\"]//g"
-        echo "export SPARK_WORKER_MEMORY=$sparkMemory" | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/spark-env.sh
-        sudo echo "export JAVA_HOME=/usr/local/kockpit-tools/java-8-openjdk-amd64" >> /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/spark-env.sh
+        echo "export SPARK_WORKER_MEMORY=$sparkMemory" | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/spark-env.sh
+        sudo echo "export JAVA_HOME=/usr/local/kockpit-tools/java-8-openjdk-amd64" >> /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/spark-env.sh
         cd /usr/local/
         masterIP=`jq '.masterIP' info.json`
         workerIP1=`jq '.workerIP1' info.json`
         workerIP2=`jq '.workerIP2' info.json`
         workerIP3=`jq '.workerIP3' info.json`
-        cd /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf
+        cd /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf
         sudo touch slaves
         sudo chmod 777 slaves
         cd /usr/local/
@@ -778,14 +804,14 @@ then
         while read i;
         do
             cd /etc/
-            echo "$i" | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.1.3-bin-hadoop3.2/conf/slaves
+            echo "$i" | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/slaves
         done
-        echo $masterIP | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/slaves
-        #echo $workerIP1 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/slaves
-        #echo $workerIP2 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/slaves
-        #echo $workerIP3 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/conf/slaves
+        echo $masterIP | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/slaves
+        #echo $workerIP1 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/slaves
+        #echo $workerIP2 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/slaves
+        #echo $workerIP3 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/conf/slaves
 
-        cd /usr/local/kockpit-tools/spark-3.2.1-bin-hadoop3.2/jars
+        cd /usr/local/kockpit-tools/spark-3.2.2-bin-hadoop3.2/jars
     
         sudo wget --no-check-certificate --content-disposition https://github.com/anmolpal/Spark-Drivers/raw/main/sqljdbc42.jar
     
@@ -878,7 +904,7 @@ then
             cd /etc/
             echo "$i" | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.1.3-bin-hadoop3.2/conf/slaves
         done
-        echo $masterIP | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.0.3-bin-hadoop3.2/conf/slaves
+        echo $masterIP | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.1.3-bin-hadoop3.2/conf/slaves
         #echo $workerIP1 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.0.3-bin-hadoop3.2/conf/slaves
         #echo $workerIP2 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.0.3-bin-hadoop3.2/conf/slaves
         #echo $workerIP3 | sed "s/['\"]//g" >> /usr/local/kockpit-tools/spark-3.0.3-bin-hadoop3.2/conf/slaves
@@ -896,7 +922,8 @@ else
     echo "Spark3.0 Installation Skipped"    
 fi  
 
-##################################################### Hive Installation #####################################################
+
+##################################################### Hive Installation Hadoop 3.2#############################################
 echo " "
 echo "==================================================="
 echo "==================================================="
@@ -904,8 +931,7 @@ read -t 2 -p "<<<<<Installing Hive>>>>>"
 echo " "
 cd /usr/local
 hive=`jq '.hive' info.json`
-#echo $hive | sed "s/['\"]//g"
-if [[ $hive == *yes* ]] 
+if [[ $hive == *yes* ]] && [[ $hadoop == *3.2* ]] 
 then
     if [[ -d "/usr/local/kockpit-tools/apache-hive-3.1.2-bin" ]]
     then
@@ -933,6 +959,41 @@ else
     echo "Hive Installation Skipped"    
 fi
 
+##################################################### Hive Installation Hadoop 3.3#############################################
+echo " "
+echo "==================================================="
+echo "==================================================="
+#read -t 2 -p "<<<<<Installing Hive>>>>>" 
+echo " "
+cd /usr/local
+hive=`jq '.hive' info.json`
+if [[ $hive == *yes* ]] && [[ $hadoop == *3.3* ]] 
+then
+    if [[ -d "/usr/local/kockpit-tools/apache-hive-3.1.2-bin" ]]
+    then
+        echo "Hive is already installed in your filesystem."
+    else
+        echo "Hive does not exist. Downloading Hive"
+        cd /usr/local/kockpit-tools/
+        sudo wget https://downloads.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz
+        sudo tar xzf apache-hive-3.1.2-bin.tar.gz
+        sudo rm -rf apache-hive-3.1.2-bin.tar.gz
+        cd /usr/local/kockpit-tools/apache-hive-3.1.2-bin/bin/
+        sudo chmod 777 hive-config.sh 
+        echo "export HADOOP_HOME=/usr/local/kockpit-tools/hadoop-3.3.2" >> hive-config.sh
+        cd /usr/local/kockpit-tools/apache-hive-3.1.2-bin/conf/
+        sudo wget https://github.com/Anmol-Recker/Hive/archive/refs/heads/main.zip
+        sudo apt install unzip
+        sudo unzip main.zip
+        cd /usr/local/kockpit-tools/apache-hive-3.1.2-bin/conf/Hive-main/
+        sudo mv hive-site.xml /usr/local/kockpit-tools/apache-hive-3.1.2-bin/conf/
+        cd /usr/local/kockpit-tools/apache-hive-3.1.2-bin/lib/
+        sudo rm guava-19.0.jar
+        sudo wget https://github.com/Anmol-Recker/Hive/raw/main/guava-27.0-jre.jar
+    fi
+else
+    echo " "    
+fi
 
 ####################################################Configuring SSH############################################################
 echo " "
@@ -989,6 +1050,9 @@ then
         yes | sudo apt-get install python3-venv
         yes | sudo python3 -m venv env_airflow
         source env_airflow/bin/activate
+        yes | sudo apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev
+        yes | sudo -H python3 -m pip install cffi
+        yes | sudo -H pip3 install WTForms==2.3.3
         yes | sudo pip3 install apache-airflow
         airflow db init
         cd /usr/local/kockpit-tools/
